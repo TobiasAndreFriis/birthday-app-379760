@@ -1,5 +1,6 @@
 package com.example.birthday_app_379760
 
+import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -17,13 +18,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
 import androidx.room.Room
 import com.example.birthday_app_379760.data.AppDatabase
-import com.example.birthday_app_379760.permission
 import com.example.birthday_app_379760.repositories.VennerRepository
 import com.example.birthday_app_379760.ui.VennerViewModel
 import com.example.birthday_app_379760.ui.screens.MyApp
 import com.example.birthday_app_379760.ui.screens.VennerApp
 import com.example.birthday_app_379760.ui.theme.Birthdayapp379760Theme
-import java.util.jar.Manifest
+
 
 
 class MainActivity : ComponentActivity() {

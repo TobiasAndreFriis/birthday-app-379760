@@ -57,6 +57,7 @@ dependencies {
     ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.navigation:navigation-compose:2.9.4")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.4")
+    implementation("androidx.work:work-runtime-ktx:2.10.5")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
