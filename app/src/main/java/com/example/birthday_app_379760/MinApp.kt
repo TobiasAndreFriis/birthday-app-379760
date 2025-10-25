@@ -15,7 +15,7 @@ class MinApp: Application() {
     }
     fun scheduleDailyWork(context: Context) {
         val workRequest = PeriodicWorkRequestBuilder<Arbeider>(
-            15, TimeUnit.MINUTES
+            24, TimeUnit.HOURS
         ) .setConstraints(
             Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED) // only run with internet

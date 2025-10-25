@@ -1,6 +1,7 @@
 package com.example.birthday_app_379760.ui.screens
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -8,31 +9,81 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.birthday_app_379760.ui.VennerViewModel
+import com.example.birthday_app_379760.ui.WorkViewModel
 
 @Composable
-fun BursdagsApp(modifier: Modifier,viewModel: VennerViewModel) {
+fun BursdagsApp(
+    modifier: Modifier = Modifier, // Gjør Modifier valgfri for lettere bruk
+    vennerViewModel: VennerViewModel,
+    workViewModel: WorkViewModel
+) {
     val navController = rememberNavController()
-    val persons: Unit = viewModel.addSamplePerson()
-    NavHost(navController, startDestination = "list") {
-        composable("list") {
+
+    // Start navigasjonen
+    NavHost(
+        navController = navController,
+        startDestination = "venner_list",
+        modifier = modifier
+    ) {
+        // Hovedskjermen som viser listen over venner
+        composable("venner_list") {
             VennerSide(
-                persons = viewModel.persons.collectAsState().value,
-                onPersonClick = { person ->
-                    navController.navigate("detail/${person.id}")
+                friends = vennerViewModel.venner.collectAsState().value, // Hent venner fra ViewModel
+                onFriendClick = { friend -> // Naviger til detaljskjerm når en venn trykkes på
+                    navController.navigate("venner_details/${friend.id}")
+                },
+                onAddFriendClick = {
+                    navController.navigate("legg_til_venn") // Naviger til "Legg til venn"-skjerm
+                },
+                onPreferencesClick = {
+                    navController.navigate("preferanse_side") // Naviger til preferansesiden
                 }
             )
         }
+
+        // Skjerm for å legge til en ny venn
+        composable("legg_til_venn") {
+            LeggTilVennSide(
+                onAddFriend = { newFriend ->
+                    vennerViewModel.addVenn(
+                        name = newFriend.name,
+                        birthDay = newFriend.birthDay,
+                        birthMonth = newFriend.birthMonth,
+                        telephoneNr = newFriend.telephoneNr,
+                        message = newFriend.message
+                    ) // Legg til ny venn ved hjelp av ViewModel
+                    navController.popBackStack() // Gå tilbake til listen
+                },
+                onNavigateBack = { navController.popBackStack() } // Gå tilbake uten å legge til
+            )
+        }
+
+        // Detaljskjerm for en spesifikk venn
         composable(
-            route = "detail/{personId}",
-            arguments = listOf(navArgument("personId") { type =
-                NavType.IntType })
+            route = "venner_details/{friendId}",
+            arguments = listOf(navArgument("friendId") { type = NavType.IntType })
         ) { backStackEntry ->
-            val personId = backStackEntry.arguments?.getInt("personId")
-            val person = viewModel.persons.collectAsState().value
-                .find { it.id == personId }
-            person?.let {
-                PersonDetailScreen(it)
+            // Hent vennens ID fra navigasjonsargumentene
+            val friendId = backStackEntry.arguments?.getInt("friendId")
+            val friend = vennerViewModel.venner.collectAsState().value
+                .find { it.id == friendId } // Finn vennen med riktig ID
+            friend?.let {
+                VennerDetaljer(
+                    friend = it,
+                    onUpdateFriend = { updatedFriend ->
+                        vennerViewModel.updateVenn(updatedFriend) // Oppdater venn i ViewModel
+                    },
+                    onNavigateBack = { navController.popBackStack() } // Tilbakeknapp
+                )
             }
+        }
+
+        // Preferansesiden
+        composable("preferanse_side") {
+            PreferanseSide(
+                navController = navController,
+                viewModel = workViewModel
+            )
         }
     }
 }

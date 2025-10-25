@@ -20,8 +20,8 @@ import androidx.room.Room
 import com.example.birthday_app_379760.data.AppDatabase
 import com.example.birthday_app_379760.repositories.VennerRepository
 import com.example.birthday_app_379760.ui.VennerViewModel
-import com.example.birthday_app_379760.ui.screens.MyApp
-import com.example.birthday_app_379760.ui.screens.VennerApp
+import com.example.birthday_app_379760.ui.WorkViewModel
+import com.example.birthday_app_379760.ui.screens.BursdagsApp
 import com.example.birthday_app_379760.ui.theme.Birthdayapp379760Theme
 
 
@@ -44,7 +44,8 @@ class MainActivity : ComponentActivity() {
             "venner_db"
         ).build()
         val repository = VennerRepository(db.vennerDao())
-        val viewModel= VennerViewModel(repository, application)
+        val vennerViewModel= VennerViewModel(repository, application)
+        val workViewModel = WorkViewModel(application)
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.SEND_SMS)
             == PackageManager.PERMISSION_GRANTED
@@ -55,7 +56,7 @@ class MainActivity : ComponentActivity() {
             beomSmstillatelse.launch(Manifest.permission.SEND_SMS)
         }
         setContent {
-            VennerApp(viewModel)
+            BursdagsApp(modifier = Modifier,vennerViewModel, workViewModel)
         }
     }
 }

@@ -5,12 +5,12 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.application
 import com.example.birthday_app_379760.MinApp
 
-class WorkViewModel(application: Application): AndroidViewModel(application) {
-    fun start() {
+open class WorkViewModel(application: Application): AndroidViewModel(application) {
+    open fun start() {
         (application as MinApp).scheduleDailyWork(application.applicationContext)
     }
 
-    fun stop() {
+    open fun stop() {
         (application as MinApp).cancelDailyWork(application.applicationContext)
     }
 }
