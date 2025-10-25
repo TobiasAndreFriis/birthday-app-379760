@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">birthday-app-379760</string>
+    <string name="tilbake">Tilbake</string>
+
+    <string name="ingen_venner">Ingen venner lagt til ennå!</string>
+
+    <string name="oppdater_venn">Oppdater venn</string>
+    <string name="slett_venn">Slett venn</string>
+
+    <string name="legg_til_venn">Legg til venn</string>
+    <string name="navn">Navn</string>
+    <string name="telefonnummer">Telefonnummer</string>
+    <string name="bursdags_dag">Bursdag (Dag)</string>
+    <string name="bursdags_måned">Bursdag (Måned)</string>
+    <string name="bursdag">Bursdag</string>
+    <string name="melding">Melding (valgfritt)</string>
+
+
+    <string name="preferanser">Preferanser</string>
+    <string name="kjør_sms_service">Kjør sms-service</string>
+    <string name="stopp_sms_service">Stopp sms-service</string>
+    <string name="sms_service_aktiv">SMS-Service er AKTIV</string>
+    <string name="sms_service_inaktiv">SMS-Service er INAKTIV</string>
+
 </resources>

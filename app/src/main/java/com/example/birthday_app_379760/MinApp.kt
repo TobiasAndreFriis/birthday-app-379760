@@ -2,6 +2,7 @@ package com.example.birthday_app_379760
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
@@ -15,18 +16,18 @@ class MinApp: Application() {
     }
     fun scheduleDailyWork(context: Context) {
         val workRequest = PeriodicWorkRequestBuilder<Arbeider>(
-            24, TimeUnit.HOURS
+            15, TimeUnit.MINUTES
         ) .setConstraints(
             Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED) // only run with internet
                 .build()
         )
             .build()
         WorkManager.getInstance(context)
             .enqueueUniquePeriodicWork(
                 "Daglig arbeid",
-                ExistingPeriodicWorkPolicy.KEEP, // keep previous if already scheduled
+                ExistingPeriodicWorkPolicy.REPLACE,
                 workRequest
             )
+        Log.d("MinApp", "Worker startet")
     }
 }

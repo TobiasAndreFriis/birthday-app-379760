@@ -16,9 +16,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.birthday_app_379760.R
 import com.example.birthday_app_379760.ui.WorkViewModel
 
 @Composable
@@ -33,36 +36,36 @@ fun PreferanseSide(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp), // Legger til litt padding for bedre layout
+            .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Viser status for tjenesten
         Text(
-            text = if (isServiceActive) "Service er AKTIV" else "Service er INAKTIV",
+            text = if (isServiceActive) stringResource(R.string.sms_service_aktiv) else stringResource(R.string.sms_service_inaktiv),
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
         // Kjør service-knappen
         Button(onClick = { viewModel.start() }) {
-            Text(text = "Kjør service")
+            Text(text = stringResource(R.string.kjør_sms_service))
         }
 
         // Stopp service-knappen
         Button(
             onClick = { viewModel.stop() },
-            modifier = Modifier.padding(top = 16.dp) // Litt mellomrom mellom knappene
+            modifier = Modifier.padding(top = 16.dp)
         ) {
-            Text(text = "Stopp service")
+            Text(text = stringResource(R.string.stopp_sms_service))
         }
 
         // Tilbake-knappen
         Button(
-            onClick = { navController.popBackStack() }, // Naviger tilbake til forrige skjerm
-            modifier = Modifier.padding(top = 32.dp) // Ekstra mellomrom over tilbake-knappen
+            onClick = { navController.popBackStack() },
+            modifier = Modifier.padding(top = 32.dp)
         ) {
-            Text(text = "Tilbake")
+            Text(text = stringResource(R.string.tilbake))
         }
     }
 }

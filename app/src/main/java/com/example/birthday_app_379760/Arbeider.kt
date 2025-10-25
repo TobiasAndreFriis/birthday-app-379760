@@ -31,8 +31,16 @@ class Arbeider(context: Context, workerParams: WorkerParameters) : Worker(contex
             val vennerDao = database.vennerDao()
             val vennerMedBursdag: List<Venner>
 
+            Log.d("Arbeider", "${todayDay}, ${todayMonth}")
+
             runBlocking {
                 vennerMedBursdag = vennerDao.getFriendsWithBirthday(todayDay, todayMonth)
+            }
+            if (vennerMedBursdag.isEmpty()){
+                Log.d("Arbeider", "Det er ingen venner med bursdag i dag!")
+            }
+            else{
+                Log.d("Arbeider", "Det er hvertfall 1 venn med bursdag i dag!")
             }
 
             // Hent SmsManager ved hjelp av getSystemService
@@ -45,7 +53,8 @@ class Arbeider(context: Context, workerParams: WorkerParameters) : Worker(contex
 
                 try {
                     // Send SMS med SmsManager
-                    smsManager.sendTextMessage(venn.telephoneNr, null, messageToSend, null, null)
+                    //smsManager.sendTextMessage(venn.telephoneNr, null, messageToSend, null, null)
+                    Log.d("Test SMS", "Sender sms til ${venn.telephoneNr} med melding '${messageToSend}'")
                     Log.d("WorkManager", "SMS sendt til ${venn.telephoneNr} med melding: $messageToSend")
                 } catch (e: Exception) {
                     Log.e("WorkManager", "Feil under sending av SMS til ${venn.telephoneNr}: ", e)

@@ -8,16 +8,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class WorkViewModel(application: Application) : AndroidViewModel(application) {
-    private val _isServiceRunning = MutableStateFlow(false) // Holder styr på tjenestestatus
+    private val _isServiceRunning = MutableStateFlow(false)
     val isServiceRunning = _isServiceRunning.asStateFlow()
 
     fun start() {
         (getApplication<Application>() as MinApp).scheduleDailyWork(getApplication<Application>().applicationContext)
-        _isServiceRunning.value = true // Oppdater status
+        _isServiceRunning.value = true
     }
 
     fun stop() {
         (getApplication<Application>() as MinApp).cancelDailyWork(getApplication<Application>().applicationContext)
-        _isServiceRunning.value = false // Oppdater status
+        _isServiceRunning.value = false
     }
 }

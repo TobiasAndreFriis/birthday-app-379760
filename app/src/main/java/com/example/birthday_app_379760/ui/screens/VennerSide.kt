@@ -10,9 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.birthday_app_379760.data.Venner
+import com.example.birthday_app_379760.R
 
 @Composable
 fun VennerSide(
@@ -39,7 +41,7 @@ fun VennerSide(
                 onClick = onPreferencesClick,
                 modifier = Modifier.weight(1f).padding(end = 8.dp)
             ) {
-                Text(text = "Preferanser")
+                Text(text = stringResource(R.string.preferanser))
             }
 
             // Naviger til legg til ny venn-siden
@@ -47,14 +49,14 @@ fun VennerSide(
                 onClick = onAddFriendClick,
                 modifier = Modifier.weight(1f).padding(start = 8.dp)
             ) {
-                Text(text = "Legg til venn")
+                Text(text = stringResource(R.string.legg_til_venn))
             }
         }
 
         // Sjekk om listen over venner er tom
         if (friends.isEmpty()) {
             Text(
-                text = "Ingen venner lagt til ennå!",
+                text = stringResource(R.string.ingen_venner),
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .padding(16.dp)
@@ -75,11 +77,11 @@ fun VennerSide(
                             style = MaterialTheme.typography.titleMedium
                         )
                         Text(
-                            text = "Telefonnummer: ${friend.telephoneNr}",
+                            text = "${stringResource(R.string.telefonnummer)}: ${friend.telephoneNr}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
-                            text = "Bursdag: ${friend.birthDay}.${friend.birthMonth}",
+                            text = "${stringResource(R.string.bursdag)}: ${friend.birthDay}.${friend.birthMonth}",
                             style = MaterialTheme.typography.bodySmall
                         )
                     }

@@ -7,9 +7,11 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.birthday_app_379760.data.Venner
+import com.example.birthday_app_379760.R
 
 @Composable
 fun LeggTilVennSide(
@@ -33,7 +35,7 @@ fun LeggTilVennSide(
         TextField(
             value = name,
             onValueChange = { name = it },
-            label = { Text("Navn") },
+            label = { Text(stringResource(R.string.navn)) },
             modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
         )
 
@@ -41,7 +43,7 @@ fun LeggTilVennSide(
         TextField(
             value = phoneNumber,
             onValueChange = { phoneNumber = it },
-            label = { Text("Telefonnummer") },
+            label = { Text(stringResource(R.string.telefonnummer)) },
             modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
         )
 
@@ -49,7 +51,7 @@ fun LeggTilVennSide(
         TextField(
             value = birthDay,
             onValueChange = { birthDay = it },
-            label = { Text("Bursdag (Dag)") },
+            label = { Text(stringResource(R.string.bursdags_dag)) },
             modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
         )
 
@@ -57,7 +59,7 @@ fun LeggTilVennSide(
         TextField(
             value = birthMonth,
             onValueChange = { birthMonth = it },
-            label = { Text("Bursdag (Måned)") },
+            label = { Text(stringResource(R.string.bursdags_måned)) },
             modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
         )
 
@@ -65,7 +67,7 @@ fun LeggTilVennSide(
         TextField(
             value = message,
             onValueChange = { message = it },
-            label = { Text("Melding (valgfritt)") },
+            label = { Text(stringResource(R.string.melding)) },
             modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
         )
 
@@ -86,7 +88,7 @@ fun LeggTilVennSide(
             },
             modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
         ) {
-            Text(text = "Legg til venn")
+            Text(text = stringResource(R.string.legg_til_venn))
         }
 
         // Tilbake-knapp
@@ -94,7 +96,7 @@ fun LeggTilVennSide(
             onClick = onNavigateBack,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = "Tilbake")
+            Text(text = stringResource(R.string.tilbake))
         }
     }
 }
