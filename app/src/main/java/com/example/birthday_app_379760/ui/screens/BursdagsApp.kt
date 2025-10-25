@@ -2,6 +2,10 @@ package com.example.birthday_app_379760.ui.screens
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -10,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.birthday_app_379760.ui.VennerViewModel
 import com.example.birthday_app_379760.ui.WorkViewModel
+import androidx.compose.runtime.key
 
 @Composable
 fun BursdagsApp(
@@ -19,6 +24,7 @@ fun BursdagsApp(
 ) {
     val navController = rememberNavController()
 
+
     // Start navigasjonen
     NavHost(
         navController = navController,
@@ -27,6 +33,7 @@ fun BursdagsApp(
     ) {
         // Hovedskjermen som viser listen over venner
         composable("venner_list") {
+            // Pakk skjermen i en nøkkel for å tvinge reinitialisering
             VennerSide(
                 friends = vennerViewModel.venner.collectAsState().value, // Hent venner fra ViewModel
                 onFriendClick = { friend -> // Naviger til detaljskjerm når en venn trykkes på
@@ -51,7 +58,7 @@ fun BursdagsApp(
                         birthMonth = newFriend.birthMonth,
                         telephoneNr = newFriend.telephoneNr,
                         message = newFriend.message
-                    ) // Legg til ny venn ved hjelp av ViewModel
+                    )
                     navController.popBackStack() // Gå tilbake til listen
                 },
                 onNavigateBack = { navController.popBackStack() } // Gå tilbake uten å legge til
@@ -63,7 +70,6 @@ fun BursdagsApp(
             route = "venner_details/{friendId}",
             arguments = listOf(navArgument("friendId") { type = NavType.IntType })
         ) { backStackEntry ->
-            // Hent vennens ID fra navigasjonsargumentene
             val friendId = backStackEntry.arguments?.getInt("friendId")
             val friend = vennerViewModel.venner.collectAsState().value
                 .find { it.id == friendId } // Finn vennen med riktig ID
@@ -72,6 +78,10 @@ fun BursdagsApp(
                     friend = it,
                     onUpdateFriend = { updatedFriend ->
                         vennerViewModel.updateVenn(updatedFriend) // Oppdater venn i ViewModel
+                    },
+                    onDeleteFriend = { deletedFriend ->
+                        vennerViewModel.deleteVenn(deletedFriend) // Slett venn i ViewModel
+                        navController.popBackStack() // Gå tilbake til listen
                     },
                     onNavigateBack = { navController.popBackStack() } // Tilbakeknapp
                 )

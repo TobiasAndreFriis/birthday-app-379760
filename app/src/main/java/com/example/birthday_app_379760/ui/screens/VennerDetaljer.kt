@@ -15,10 +15,10 @@ import com.example.birthday_app_379760.data.Venner
 @Composable
 fun VennerDetaljer(
     friend: Venner,
-    onUpdateFriend: (Venner) -> Unit, // Funksjon for å oppdatere venn
-    onNavigateBack: () -> Unit // Mulighet for å navigere tilbake
+    onUpdateFriend: (Venner) -> Unit, // Funksjon for å oppdatere en venn
+    onDeleteFriend: (Venner) -> Unit, // Funksjon for å slette en venn
+    onNavigateBack: () -> Unit // Funksjon for å gå tilbake
 ) {
-    // Husk oppdaterte detaljer med remember
     var name by remember { mutableStateOf(friend.name) }
     var phoneNumber by remember { mutableStateOf(friend.telephoneNr) }
     var birthDay by remember { mutableStateOf(friend.birthDay.toString()) }
@@ -32,60 +32,43 @@ fun VennerDetaljer(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Input for navn
         TextField(
             value = name,
             onValueChange = { name = it },
             label = { Text("Navn") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp)
+            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
         )
 
-        // Input for telefonnummer
         TextField(
             value = phoneNumber,
             onValueChange = { phoneNumber = it },
             label = { Text("Telefonnummer") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp)
+            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
         )
 
-        // Input for bursdag (dag)
         TextField(
             value = birthDay,
             onValueChange = { birthDay = it },
             label = { Text("Bursdag (Dag)") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp)
+            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
         )
 
-        // Input for bursdag (måned)
         TextField(
             value = birthMonth,
             onValueChange = { birthMonth = it },
             label = { Text("Bursdag (Måned)") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp)
+            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
         )
 
-        // Input for melding
         TextField(
             value = message,
             onValueChange = { message = it },
             label = { Text("Melding (valgfritt)") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp)
+            modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
         )
 
-        // Oppdater venn-knappen
         Button(
             onClick = {
-                // Oppdater vennen med de endrede verdiene
                 val updatedFriend = friend.copy(
                     name = name,
                     telephoneNr = phoneNumber,
@@ -93,22 +76,29 @@ fun VennerDetaljer(
                     birthMonth = birthMonth.toIntOrNull() ?: friend.birthMonth,
                     message = message
                 )
-                onUpdateFriend(updatedFriend) // Kall funksjonen for å oppdatere vennen
+                onUpdateFriend(updatedFriend) // Oppdaterer vennen via ViewModel
                 onNavigateBack() // Gå tilbake til forrige skjerm
             },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp)
+            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
         ) {
             Text(text = "Oppdater venn")
         }
 
-        // Tilbake-knapp for å navigere tilbake til forrige skjerm
         Button(
-            onClick = { onNavigateBack() },
+            onClick = {
+                onDeleteFriend(friend) // Sletter vennen via ViewModel
+                onNavigateBack() // Gå tilbake til listen
+            },
+            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+        ) {
+            Text(text = "Slett venn")
+        }
+
+        Button(
+            onClick = { onNavigateBack() }, // Naviger tilbake
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Tilbake")
+            Text(text = "Tilbake")
         }
     }
 }
@@ -130,12 +120,13 @@ fun PreviewVennerDetaljer() {
     VennerDetaljer(
         friend = exampleFriend,
         onUpdateFriend = { updatedFriend ->
-            // Simuler oppdatering av venn i Preview
-            println("Oppdatert venn: $updatedFriend")
+            println("Oppdatert venn: $updatedFriend") // Simuler oppdatering i Preview
+        },
+        onDeleteFriend = { deletedFriend ->
+            println("Slettet venn: $deletedFriend") // Simuler sletting i Preview
         },
         onNavigateBack = {
-            // Simuler tilbake-navigasjon i Preview
-            println("Naviger tilbake")
+            println("Naviger tilbake") // Simuler tilbake-navigasjon i Preview
         }
     )
 }

@@ -7,6 +7,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,16 +25,16 @@ fun VennerSide(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = Arrangement.Top
     ) {
-        // Rad med preferanse- og legg til ny venn-knapper
+        // Knapp for å navigere til PreferanseSide
         Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
+                .padding(bottom = 16.dp)
         ) {
+            // Naviger til preferansesiden
             Button(
                 onClick = onPreferencesClick,
                 modifier = Modifier.weight(1f).padding(end = 8.dp)
@@ -41,6 +42,7 @@ fun VennerSide(
                 Text(text = "Preferanser")
             }
 
+            // Naviger til legg til ny venn-siden
             Button(
                 onClick = onAddFriendClick,
                 modifier = Modifier.weight(1f).padding(start = 8.dp)
@@ -49,21 +51,23 @@ fun VennerSide(
             }
         }
 
+        // Sjekk om listen over venner er tom
         if (friends.isEmpty()) {
-            // Viser en melding når det ikke er noen venner
             Text(
                 text = "Ingen venner lagt til ennå!",
                 style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.CenterHorizontally)
             )
         } else {
-            // Liste over venner
+            // Vis listen over venner
             friends.forEach { friend ->
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(4.dp)
-                        .clickable { onFriendClick(friend) } // Naviger til detaljskjerm for vennen
+                        .clickable { onFriendClick(friend) }
                 ) {
                     Column(modifier = Modifier.padding(12.dp)) {
                         Text(

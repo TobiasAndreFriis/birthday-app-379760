@@ -2,6 +2,7 @@ package com.example.birthday_app_379760.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -13,6 +14,10 @@ import com.example.birthday_app_379760.ui.screens.LeggTilVennSide
 import com.example.birthday_app_379760.ui.screens.PreferanseSide
 import com.example.birthday_app_379760.ui.screens.VennerDetaljer
 import com.example.birthday_app_379760.ui.screens.VennerSide
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 
 @Composable
 fun NavigationGraph(
@@ -28,10 +33,11 @@ fun NavigationGraph(
     ) {
         // Rute for listen over venner
         composable("venner_list") {
+            // Pakk skjermen i en nøkkel (refreshKey) for å tvinge reinitialisering
             VennerSide(
-                friends = vennerViewModel.venner.collectAsState().value, // Henter venner fra ViewModel
-                onFriendClick = { friend ->
-                    navController.navigate("venner_details/${friend.id}") // Naviger til detaljskjerm
+                friends = vennerViewModel.venner.collectAsState().value, // Hent venner fra ViewModel
+                onFriendClick = { friend -> // Naviger til detaljskjerm når en venn trykkes på
+                    navController.navigate("venner_details/${friend.id}")
                 },
                 onAddFriendClick = {
                     navController.navigate("legg_til_venn") // Naviger til "Legg til venn"-skjerm
@@ -63,6 +69,10 @@ fun NavigationGraph(
                     friend = it,
                     onUpdateFriend = { updatedFriend ->
                         vennerViewModel.updateVenn(updatedFriend) // Oppdater vennen i ViewModel
+                    },
+                    onDeleteFriend = { deletedFriend ->
+                        vennerViewModel.deleteVenn(deletedFriend) // Slett venn i ViewModel
+                        navController.popBackStack() // Gå tilbake til listen etter sletting
                     },
                     onNavigateBack = { navController.popBackStack() } // Gå tilbake til listen
                 )

@@ -1,13 +1,18 @@
 package com.example.birthday_app_379760.ui.screens
 
+import android.annotation.SuppressLint
 import android.app.Application
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -22,6 +27,9 @@ fun PreferanseSide(
     modifier: Modifier = Modifier,
     viewModel: WorkViewModel
 ) {
+    // Observer tjenestestatus fra ViewModel
+    val isServiceActive = viewModel.isServiceRunning.collectAsState().value
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -29,6 +37,13 @@ fun PreferanseSide(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // Viser status for tjenesten
+        Text(
+            text = if (isServiceActive) "Service er AKTIV" else "Service er INAKTIV",
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+
         // Kjør service-knappen
         Button(onClick = { viewModel.start() }) {
             Text(text = "Kjør service")
@@ -52,23 +67,4 @@ fun PreferanseSide(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewPreferanseSide() {
-    // Mock WorkViewModel for Preview
-    val mockWorkViewModel = object : WorkViewModel(Application()) {
-        override fun start() {
-            // Eksempel: Logikk kan være tom
-        }
 
-        override fun stop() {
-            // Eksempel: Logikk kan være tom
-        }
-    }
-
-    // Forhåndsvisning av PreferanseSide
-    PreferanseSide(
-        navController = NavController(LocalContext.current),
-        viewModel = mockWorkViewModel
-    )
-}
