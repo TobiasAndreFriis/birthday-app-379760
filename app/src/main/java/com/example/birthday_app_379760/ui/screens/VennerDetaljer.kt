@@ -94,7 +94,6 @@ fun VennerDetaljer(
             Button(
                 onClick = {
                     onDeleteFriend(friend) // Sletter vennen via ViewModel
-                    onNavigateBack() // Gå tilbake til listen
                 },
                 modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
             ) {

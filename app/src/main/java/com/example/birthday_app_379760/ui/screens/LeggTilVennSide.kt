@@ -88,7 +88,6 @@ fun LeggTilVennSide(
                             message = message.ifBlank { "Gratulerer med dagen!" }
                         )
                         onAddFriend(newFriend)
-                        onNavigateBack()
                     }
                 },
                 modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
