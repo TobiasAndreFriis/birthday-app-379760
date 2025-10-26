@@ -24,6 +24,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.birthday_app_379760.R
 import com.example.birthday_app_379760.ui.WorkViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 @Composable
 fun PreferanseSide(
@@ -74,4 +76,29 @@ fun PreferanseSide(
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+fun PreviewPreferanseSide() {
+    // Mock WorkViewModel for Preview
+    val mockWorkViewModel = object : WorkViewModel(Application()) {
+        private val _isServiceRunning = MutableStateFlow(false) // Simulerer inaktiv tjeneste
+        override val isServiceRunning = _isServiceRunning.asStateFlow() // Eksponerer som StateFlow
 
+        override fun start() {
+            // Simuler oppdatering av tjenestestatus i Preview
+            _isServiceRunning.value = true
+        }
+
+        override fun stop() {
+            // Simuler oppdatering av tjenestestatus i Preview
+            _isServiceRunning.value = false
+        }
+    }
+
+    // Vis PreferanseSide med mock NavController og ViewModel
+    PreferanseSide(
+        navController = rememberNavController(), // Mock NavController
+        modifier = Modifier,
+        viewModel = mockWorkViewModel
+    )
+}
