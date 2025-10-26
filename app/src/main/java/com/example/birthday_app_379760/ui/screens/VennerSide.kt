@@ -6,6 +6,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -23,67 +24,72 @@ fun VennerSide(
     onAddFriendClick: () -> Unit,
     onPreferencesClick: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Top
-    ) {
-        // Knapp for å navigere til PreferanseSide
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
+    MaterialTheme(
+        colorScheme = darkColorScheme()
+    ){
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp)
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Top
         ) {
-            // Naviger til preferansesiden
-            Button(
-                onClick = onPreferencesClick,
-                modifier = Modifier.weight(1f).padding(end = 8.dp)
-            ) {
-                Text(text = stringResource(R.string.preferanser))
-            }
-
-            // Naviger til legg til ny venn-siden
-            Button(
-                onClick = onAddFriendClick,
-                modifier = Modifier.weight(1f).padding(start = 8.dp)
-            ) {
-                Text(text = stringResource(R.string.legg_til_venn))
-            }
-        }
-
-        // Sjekk om listen over venner er tom
-        if (friends.isEmpty()) {
-            Text(
-                text = stringResource(R.string.ingen_venner),
-                style = MaterialTheme.typography.bodyMedium,
+            Spacer(modifier = Modifier.height(50.dp))
+            // Knapp for å navigere til PreferanseSide
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
-                    .padding(16.dp)
-                    .align(Alignment.CenterHorizontally)
-            )
-        } else {
-            // Vis listen over venner
-            friends.forEach { friend ->
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(4.dp)
-                        .clickable { onFriendClick(friend) }
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
+            ) {
+                // Naviger til preferansesiden
+                Button(
+                    onClick = onPreferencesClick,
+                    modifier = Modifier.weight(1f).padding(end = 8.dp)
                 ) {
-                    Column(modifier = Modifier.padding(12.dp)) {
-                        Text(
-                            text = friend.name,
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                        Text(
-                            text = "${stringResource(R.string.telefonnummer)}: ${friend.telephoneNr}",
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                        Text(
-                            text = "${stringResource(R.string.bursdag)}: ${friend.birthDay}.${friend.birthMonth}",
-                            style = MaterialTheme.typography.bodySmall
-                        )
+                    Text(text = stringResource(R.string.preferanser))
+                }
+
+                // Naviger til legg til ny venn-siden
+                Button(
+                    onClick = onAddFriendClick,
+                    modifier = Modifier.weight(1f).padding(start = 8.dp)
+                ) {
+                    Text(text = stringResource(R.string.legg_til_venn))
+                }
+            }
+
+            // Sjekk om listen over venner er tom
+            if (friends.isEmpty()) {
+                Text(
+                    text = stringResource(R.string.ingen_venner),
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .align(Alignment.CenterHorizontally)
+                )
+            } else {
+                // Vis listen over venner
+                friends.forEach { friend ->
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(4.dp)
+                            .clickable { onFriendClick(friend) }
+                    ) {
+                        Column(modifier = Modifier.padding(12.dp)) {
+                            Text(
+                                text = friend.name,
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                            Text(
+                                text = "${stringResource(R.string.telefonnummer)}: ${friend.telephoneNr}",
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                            Text(
+                                text = "${stringResource(R.string.bursdag)}: ${friend.birthDay}.${friend.birthMonth}",
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                        }
                     }
                 }
             }

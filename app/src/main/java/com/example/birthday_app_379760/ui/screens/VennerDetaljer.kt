@@ -1,10 +1,12 @@
 package com.example.birthday_app_379760.ui.screens
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,80 +29,84 @@ fun VennerDetaljer(
     var birthMonth by remember { mutableStateOf(friend.birthMonth.toString()) }
     var message by remember { mutableStateOf(friend.message) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        TextField(
-            value = name,
-            onValueChange = { name = it },
-            label = { Text(stringResource(R.string.navn)) },
-            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
-        )
-
-        TextField(
-            value = phoneNumber,
-            onValueChange = { phoneNumber = it },
-            label = { Text(stringResource(R.string.telefonnummer)) },
-            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
-        )
-
-        TextField(
-            value = birthDay,
-            onValueChange = { birthDay = it },
-            label = { Text(stringResource(R.string.bursdags_dag))},
-            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
-        )
-
-        TextField(
-            value = birthMonth,
-            onValueChange = { birthMonth = it },
-            label = { Text(stringResource(R.string.bursdags_måned)) },
-            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
-        )
-
-        TextField(
-            value = message,
-            onValueChange = { message = it },
-            label = { Text(stringResource(R.string.melding)) },
-            modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
-        )
-
-        Button(
-            onClick = {
-                val updatedFriend = friend.copy(
-                    name = name,
-                    telephoneNr = phoneNumber,
-                    birthDay = birthDay.toIntOrNull() ?: friend.birthDay,
-                    birthMonth = birthMonth.toIntOrNull() ?: friend.birthMonth,
-                    message = message
-                )
-                onUpdateFriend(updatedFriend) // Oppdaterer vennen via ViewModel
-                onNavigateBack() // Gå tilbake til forrige skjerm
-            },
-            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+    MaterialTheme(
+        colorScheme = darkColorScheme()
+    ){
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = stringResource(R.string.oppdater_venn))
-        }
+            TextField(
+                value = name,
+                onValueChange = { name = it },
+                label = { Text(stringResource(R.string.navn)) },
+                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+            )
 
-        Button(
-            onClick = {
-                onDeleteFriend(friend) // Sletter vennen via ViewModel
-                onNavigateBack() // Gå tilbake til listen
-            },
-            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
-        ) {
-            Text(text = stringResource(R.string.slett_venn))
-        }
+            TextField(
+                value = phoneNumber,
+                onValueChange = { phoneNumber = it },
+                label = { Text(stringResource(R.string.telefonnummer)) },
+                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+            )
 
-        Button(
-            onClick = { onNavigateBack() }, // Naviger tilbake
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = stringResource(R.string.tilbake))
+            TextField(
+                value = birthDay,
+                onValueChange = { birthDay = it },
+                label = { Text(stringResource(R.string.bursdags_dag))},
+                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+            )
+
+            TextField(
+                value = birthMonth,
+                onValueChange = { birthMonth = it },
+                label = { Text(stringResource(R.string.bursdags_måned)) },
+                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+            )
+
+            TextField(
+                value = message,
+                onValueChange = { message = it },
+                label = { Text(stringResource(R.string.melding)) },
+                modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
+            )
+
+            Button(
+                onClick = {
+                    val updatedFriend = friend.copy(
+                        name = name,
+                        telephoneNr = phoneNumber,
+                        birthDay = birthDay.toIntOrNull() ?: friend.birthDay,
+                        birthMonth = birthMonth.toIntOrNull() ?: friend.birthMonth,
+                        message = message
+                    )
+                    onUpdateFriend(updatedFriend) // Oppdaterer vennen via ViewModel
+                    onNavigateBack() // Gå tilbake til forrige skjerm
+                },
+                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+            ) {
+                Text(text = stringResource(R.string.oppdater_venn))
+            }
+
+            Button(
+                onClick = {
+                    onDeleteFriend(friend) // Sletter vennen via ViewModel
+                    onNavigateBack() // Gå tilbake til listen
+                },
+                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+            ) {
+                Text(text = stringResource(R.string.slett_venn))
+            }
+
+            Button(
+                onClick = { onNavigateBack() }, // Naviger tilbake
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = stringResource(R.string.tilbake))
+            }
         }
     }
 }

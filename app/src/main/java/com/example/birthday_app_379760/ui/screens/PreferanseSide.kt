@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
@@ -32,40 +33,43 @@ fun PreferanseSide(
 ) {
     // Observer tjenestestatus fra ViewModel
     val isServiceActive = viewModel.isServiceRunning.collectAsState().value
-
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Viser status for tjenesten
-        Text(
-            text = if (isServiceActive) stringResource(R.string.sms_service_aktiv) else stringResource(R.string.sms_service_inaktiv),
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-
-        // Kjør service-knappen
-        Button(onClick = { viewModel.start() }) {
-            Text(text = stringResource(R.string.kjør_sms_service))
-        }
-
-        // Stopp service-knappen
-        Button(
-            onClick = { viewModel.stop() },
-            modifier = Modifier.padding(top = 16.dp)
+    MaterialTheme(
+        colorScheme = darkColorScheme()
+    ){
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = stringResource(R.string.stopp_sms_service))
-        }
+            // Viser status for tjenesten
+            Text(
+                text = if (isServiceActive) stringResource(R.string.sms_service_aktiv) else stringResource(R.string.sms_service_inaktiv),
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
 
-        // Tilbake-knappen
-        Button(
-            onClick = { navController.popBackStack() },
-            modifier = Modifier.padding(top = 32.dp)
-        ) {
-            Text(text = stringResource(R.string.tilbake))
+            // Kjør service-knappen
+            Button(onClick = { viewModel.start() }) {
+                Text(text = stringResource(R.string.kjør_sms_service))
+            }
+
+            // Stopp service-knappen
+            Button(
+                onClick = { viewModel.stop() },
+                modifier = Modifier.padding(top = 16.dp)
+            ) {
+                Text(text = stringResource(R.string.stopp_sms_service))
+            }
+
+            // Tilbake-knappen
+            Button(
+                onClick = { navController.popBackStack() },
+                modifier = Modifier.padding(top = 32.dp)
+            ) {
+                Text(text = stringResource(R.string.tilbake))
+            }
         }
     }
 }

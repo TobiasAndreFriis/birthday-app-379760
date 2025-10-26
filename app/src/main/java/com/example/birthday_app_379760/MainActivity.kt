@@ -38,11 +38,7 @@ class MainActivity : ComponentActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java,
-            "venner_db"
-        ).build()
+        val db = AppDatabase.getInstance(applicationContext)
         val repository = VennerRepository(db.vennerDao())
         val vennerViewModel= VennerViewModel(repository, application)
         val workViewModel = WorkViewModel(application)
