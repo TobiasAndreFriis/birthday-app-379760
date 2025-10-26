@@ -53,8 +53,8 @@ class Arbeider(context: Context, workerParams: WorkerParameters) : Worker(contex
 
                 try {
                     // Send SMS med SmsManager
-                    //smsManager.sendTextMessage(venn.telephoneNr, null, messageToSend, null, null)
-                    Log.d("Test SMS", "Sender sms til ${venn.telephoneNr} med melding '${messageToSend}'")
+                    smsManager.sendTextMessage(venn.telephoneNr, null, messageToSend, null, null)
+                    //Log.d("Test SMS", "Sender sms til ${venn.telephoneNr} med melding '${messageToSend}'")
                     Log.d("WorkManager", "SMS sendt til ${venn.telephoneNr} med melding: $messageToSend")
                 } catch (e: Exception) {
                     Log.e("WorkManager", "Feil under sending av SMS til ${venn.telephoneNr}: ", e)
